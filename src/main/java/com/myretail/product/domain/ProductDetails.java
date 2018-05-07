@@ -43,6 +43,13 @@ public class ProductDetails {
 		return id;
 	}
 
+	public ProductDetails(long id, String name, Price currentPrice) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.currentPrice = currentPrice;
+	}
+
 	
 
 }

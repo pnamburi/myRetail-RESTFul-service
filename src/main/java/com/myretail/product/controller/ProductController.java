@@ -14,6 +14,12 @@ import com.myretail.product.domain.ProductDetails;
 import com.myretail.product.model.ProductPricing;
 import com.myretail.product.service.ProductService;
 
+/**
+ * Spring Controller class that expose the REST APIs for product Details
+ * 
+ * @author pnamb
+ *
+ */
 @RestController
 public class ProductController {
 
@@ -23,7 +29,17 @@ public class ProductController {
 	@Autowired
 	ProductPricingDAO productPricingDAO;
 
-	@RequestMapping(value = "/products/{id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	/**
+	 * API to get the Product pricing Details.
+	 * 
+	 * @param Id
+	 *            of product.
+	 * @return ProductDetails JSON. Example {"id":13860428,"name":"The Big Lebowski
+	 *         (Blu-ray) (Widescreen)","current_price":{"value":
+	 *         13.49,"currency_code":"USD"}}
+	 * 
+	 */
+	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ProductDetails getProduct(@PathVariable(value = "id") Long id) {
 
 		ProductDetails productDetails = productService.getProduct(id);
@@ -35,14 +51,22 @@ public class ProductController {
 		}
 		return productDetails;
 	}
-	
-	@RequestMapping(value = "/products/",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ProductDetails getProduct(@RequestBody ProductDetails productDetails) {
 
-	
+	/**
+	 * API to update the Product pricing Details.
+	 * 
+	 * @param ProductDetails
+	 *            JSON. Example {"id":13860428,"name":"The Big Lebowski (Blu-ray)
+	 *            (Widescreen)","current_price":{"value":
+	 *            13.49,"currency_code":"USD"}}
+	 * 
+	 * @return nothing, Spring should take care of returning the success HTTPS code.
+	 * 
+	 */
+	@RequestMapping(value = "/products/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void getProduct(@RequestBody ProductDetails productDetails) {
 
-		ProductDetails updatedProductDetails = productPricingDAO.updateProduct(productDetails);
-		
-		return  updatedProductDetails;
+		productPricingDAO.updateProduct(productDetails);
+
 	}
 }

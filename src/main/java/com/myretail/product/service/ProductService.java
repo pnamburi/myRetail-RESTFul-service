@@ -18,12 +18,23 @@ import org.springframework.web.client.RestTemplate;
 
 import com.myretail.product.domain.ProductDetails;
 import com.myretail.product.domain.ProductRestResponse;
-
+/**
+ * This class is used to interact with the redsky.target.com REST service.
+ * This need to be modified when the service hosted internally
+ *
+ * @author pnamb
+ *
+ */
 @Service
 public class ProductService {
 	Logger logger = Logger.getLogger(ProductService.class);
 	RestTemplate restTemplate;
-
+/**
+ * Get the Product information from  redsky.target.com, this is something that need to be available internally
+ * TODO Need to use template for the endpoint URL for the REST service
+ * @param id
+ * @return
+ */
 	public ProductDetails getProduct(Long id) {
 		ProductDetails productDetails = new ProductDetails(id);
 		try {
@@ -41,7 +52,11 @@ public class ProductService {
 		}
 		return productDetails;
 	}
-
+/**
+ * We don't have any SSL certificates to accept, accept all the certificates for now.
+ * TODO This is a borrowed code from Internet, may need to revise
+ * @return
+ */
 	private RestTemplate getTrustAllCertRestTemplate() {
 		//Check if rest template already created and return the existing
 		if (restTemplate != null)
