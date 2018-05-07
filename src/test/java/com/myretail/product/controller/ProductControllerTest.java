@@ -1,7 +1,7 @@
 package com.myretail.product.controller;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -12,23 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.myretail.product.dao.ProductPricingDAO;
 import com.myretail.product.domain.Price;
 import com.myretail.product.domain.ProductDetails;
 import com.myretail.product.model.ProductPricing;
 import com.myretail.product.service.ProductService;
-
+/**
+ * Test class to test the ProductController which is exposed as REST service
+ * @author pnamb
+ *
+ */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { TestContext.class, WebApplicationContext.class })
-@WebMvcTest(value = ProductController.class)
+@WebMvcTest(ProductController.class)
 public class ProductControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -39,47 +39,29 @@ public class ProductControllerTest {
 	@MockBean
 	private ProductPricingDAO productPricingDAO;
 
-	ProductDetails productDetails = new ProductDetails(13860428, "\"The Big Lebowski (Blu-ray) (Widescreen)",
-			new Price(13.49, "USD"));
-	ProductPricing ProductPricing = new ProductPricing(13860428L, 13.49, "USD");
-
-	String exampleProductJson = "{\"id\":13860428,\"name\":\"The Big Lebowski (Blu-ray) (Widescreen)\",\"current_price\":{\"value\": 13.49,\"currency_code\":\"USD\"}}";
-
 	@Test
 	public void getProductTest() throws Exception {
+		ProductDetails productDetails = new ProductDetails(13860428, "The Big Lebowski (Blu-ray) (Widescreen)",
+				new Price(13.49, "USD"));
+		ProductPricing ProductPricing = new ProductPricing(13860428L, 13.49, "USD");
 
-		Mockito.when(productService.getProduct(Mockito.anyLong())).thenReturn(productDetails);
-		Mockito.when(productPricingDAO.retrieveProduct(Mockito.anyLong())).thenReturn(ProductPricing);
+		Mockito.when(productService.getProduct(13860428L)).thenReturn(productDetails);
+		Mockito.when(productPricingDAO.retrieveProduct(13860428)).thenReturn(ProductPricing);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products/13860428")
-				.accept(MediaType.APPLICATION_JSON);
+		mockMvc.perform(get("/products/13860428")).andExpect(status().isOk()).andExpect(jsonPath("$.id", is(13860428)))
+				.andExpect(jsonPath("$.name", is("The Big Lebowski (Blu-ray) (Widescreen)")))
+				.andExpect(jsonPath("$.current_price.value", is(13.49)))
+				.andExpect(jsonPath("$.current_price.currency_code", is("USD")));
 
-		mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)))
-				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$[0].description", is("Lorem ipsum")))
-				.andExpect(jsonPath("$[0].title", is("Foo")));
 	}
+
 	@Test
 	public void UpdateProductTest() throws Exception {
+		String productJson = "{\"id\":13860428,\"name\":\"The Big Lebowski (Blu-ray) (Widescreen)\",\"current_price\":{\"value\": 13.49,\"currency_code\":\"USD\"}}";
 
-		Course mockCourse = new Course("1", "Smallest Number", "1",
-				Arrays.asList("1", "2", "3", "4"));
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/products/").accept(MediaType.APPLICATION_JSON)
+				.content(productJson).contentType(MediaType.APPLICATION_JSON);
 
-		// studentService.addCourse to respond back with mockCourse
-		Mockito.doCallRealMethod().when(productPricingDAO.;
-
-		// Send course as body to /students/Student1/courses
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post("/students/Student1/courses")
-				.accept(MediaType.APPLICATION_JSON).content(exampleCourseJson)
-				.contentType(MediaType.APPLICATION_JSON);
-
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-		MockHttpServletResponse response = result.getResponse();
-
-		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-
-		assertEquals("http://localhost/students/Student1/courses/1",
-				response.getHeader(HttpHeaders.LOCATION));
+		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 	}
 }

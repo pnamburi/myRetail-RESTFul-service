@@ -20,9 +20,16 @@ import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
-import com.myretail.product.application.Application;
+import com.myretail.product.Application;
 import com.myretail.product.model.ProductPricing;
 
+/**
+ * Test class to test the ProductPricingDAO which is the repository
+ * interface for the DynamDB database access
+ * 
+ * @author pnamb
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("local")
@@ -48,7 +55,10 @@ public class ProductPricingDAOTest {
 		System.setProperty("aws.accessKeyId", "No_key");
 		System.setProperty("aws.secretKey", "No_key");
 	}
-
+/**
+ * Setup in-momory DynamoDB Database and create the table
+ * @throws Exception
+ */
 	@Before
 	public void setup() throws Exception {
 		// Start in memory DynamoDB Server

@@ -18,9 +18,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.myretail.product.domain.ProductDetails;
 import com.myretail.product.domain.ProductRestResponse;
+
 /**
- * This class is used to interact with the redsky.target.com REST service.
- * This need to be modified when the service hosted internally
+ * This class is used to interact with the redsky.target.com REST service. This
+ * need to be modified when the service hosted internally
  *
  * @author pnamb
  *
@@ -29,12 +30,15 @@ import com.myretail.product.domain.ProductRestResponse;
 public class ProductService {
 	Logger logger = Logger.getLogger(ProductService.class);
 	RestTemplate restTemplate;
-/**
- * Get the Product information from  redsky.target.com, this is something that need to be available internally
- * TODO Need to use template for the endpoint URL for the REST service
- * @param id
- * @return
- */
+
+	/**
+	 * Get the Product information from redsky.target.com, this is something that
+	 * need to be available internally. TODO Need to use template for the endpoint
+	 * URL for the REST service
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public ProductDetails getProduct(Long id) {
 		ProductDetails productDetails = new ProductDetails(id);
 		try {
@@ -48,22 +52,24 @@ public class ProductService {
 					&& productResponse.getProduct().getItem().getProductDescription().getTitle() != null)
 				productDetails.setName(productResponse.getProduct().getItem().getProductDescription().getTitle());
 		} catch (Exception e) {
-			logger.warn("Exception Retreving the product infromation from from redsky.target.com for ID :"+id,e);
+			logger.warn("Exception Retreving the product infromation from from redsky.target.com for ID :" + id, e);
 		}
 		return productDetails;
 	}
-/**
- * We don't have any SSL certificates to accept, accept all the certificates for now.
- * TODO This is a borrowed code from Internet, may need to revise
- * @return
- */
-	private RestTemplate getTrustAllCertRestTemplate() {
-		//Check if rest template already created and return the existing
+
+	/**
+	 * We don't have any SSL certificates to accept, accept all the certificates for
+	 * now.
+	 * 
+	 * @return
+	 */
+	protected RestTemplate getTrustAllCertRestTemplate() {
+		// Check if rest template already created and return the existing
 		if (restTemplate != null)
 			return restTemplate;
 
 		TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-
+		// TODO This is a borrowed code from Internet, may need to revise
 		SSLContext sslContext;
 		try {
 			sslContext = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy)
@@ -80,7 +86,7 @@ public class ProductService {
 			return restTemplate;
 		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
 
-			logger.warn("Exception While creating RestTemplate with trust all certificates ",e);
+			logger.warn("Exception While creating RestTemplate with trust all certificates ", e);
 		}
 		return new RestTemplate();
 	}

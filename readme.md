@@ -23,10 +23,12 @@ MyRetail RESTful service provides the API to:
 2. Open Command Prompt/Terminal and Change Directory Location to the project directory -- cd <WORKSTATION_PATH>/myRetail-RESTFul-service
 3. Build the project using Maven - mvn clean install
 3. Setup and run Local DynamoDB database -- mvn exec:java -Dexec.mainClass="com.myretail.product.config.SetupLocalDynamoDB" -Dexec.classpathScope="test" -Psetup-db
-4. Run the Spring boot app with the jar create from Maven install in Step 3 --  java -jar -Dspring.profiles.active=local target/myRetail-RESTFul-service-1.0.0-SNAPSHOT.jar
-5. Test the get product API from the browser -- http://localhost:8080/products/13860428
-6. Test the update product API with SOAP UI or any REST client  --- http://localhost:8080/products -- JSON Input : {   "id": 13860428,   "name": "The Big Lebowski (Blu-ray)",   "current_price":    {      "value": 17.44,      "currency_code": "USD"   }}
-7. Import the sample SoapUI project located in test resources directory for Integration testing(Can be Automated) -- <WORKSTATION_PATH>/myRetail-RESTFul-service/src/test/resources.
+Note: the DinamoDB service keep printing the message "18:06:00.431 [pool-4-thread-3] DEBUG com.amazonaws.services.dynamodbv2.local.shared.access.sqlite.SQLiteDBAccess - SELECT TableName, TableInfo FROM dm;", just ignore that and keep the service running
+4. Open another Command Prompt/Terminal and Change Directory Location to the project directory -- cd <WORKSTATION_PATH>/myRetail-RESTFul-service
+5. Run the Spring boot app with the jar create from Maven install in Step 3 --  java -jar -Dspring.profiles.active=local target/myRetail-RESTFul-service-1.0.0-SNAPSHOT.jar
+6. Test the get product API from the browser -- http://localhost:8080/products/13860428
+7. Test the update product API with SOAP UI or any REST client  --- http://localhost:8080/products -- JSON Input : {   "id": 13860428,   "name": "The Big Lebowski (Blu-ray)",   "current_price":    {      "value": 17.44,      "currency_code": "USD"   }}
+8. Import the sample SoapUI project located in test resources directory for Integration testing(Can be Automated) -- <WORKSTATION_PATH>/myRetail-RESTFul-service/src/test/resources.
  
 ##Instructions to run in production
 1. Setup Amazon DunamoDB credentials as described in the developer huide https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CodeSamples.Java.html#CodeSamples.Java.Credentials 
