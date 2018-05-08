@@ -18,7 +18,7 @@ MyRetail RESTful service provides the API to:
 2. Amazon DynamoDB - https://aws.amazon.com/dynamodb/
 3. Maven - https://maven.apache.org/
 
-## Instructions to Setup locally
+## Instructions to setup and run locally
 
 1. Clone The Repository from Git Hub to a local workstation -- git clone https://github.com/pnamburi/myRetail-RESTFul-service.git
 2. Open Command Prompt/Terminal and Change Directory Location to the project directory -- cd <PATH>/myRetail-RESTFul-service
