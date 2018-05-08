@@ -1,6 +1,6 @@
 package com.myretail.product.controller;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,10 +48,10 @@ public class ProductControllerTest {
 		Mockito.when(productService.getProduct(13860428L)).thenReturn(productDetails);
 		Mockito.when(productPricingDAO.retrieveProduct(13860428)).thenReturn(ProductPricing);
 
-		mockMvc.perform(get("/products/13860428")).andExpect(status().isOk()).andExpect(jsonPath("$.id", is(13860428)))
-				.andExpect(jsonPath("$.name", is("The Big Lebowski (Blu-ray) (Widescreen)")))
-				.andExpect(jsonPath("$.current_price.value", is(13.49)))
-				.andExpect(jsonPath("$.current_price.currency_code", is("USD")));
+		mockMvc.perform(get("/products/13860428")).andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(13860428)))
+				.andExpect(jsonPath("$.name", equalTo("The Big Lebowski (Blu-ray) (Widescreen)")))
+				.andExpect(jsonPath("$.current_price.value", equalTo(13.49)))
+				.andExpect(jsonPath("$.current_price.currency_code", equalTo("USD")));
 
 	}
 
@@ -59,7 +59,7 @@ public class ProductControllerTest {
 	public void UpdateProductTest() throws Exception {
 		String productJson = "{\"id\":13860428,\"name\":\"The Big Lebowski (Blu-ray) (Widescreen)\",\"current_price\":{\"value\": 13.49,\"currency_code\":\"USD\"}}";
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/products/").accept(MediaType.APPLICATION_JSON)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/products/13860428").accept(MediaType.APPLICATION_JSON)
 				.content(productJson).contentType(MediaType.APPLICATION_JSON);
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());

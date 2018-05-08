@@ -28,6 +28,14 @@ MyRetail RESTful service provides the API to:
 5. Open another Command Prompt/Terminal and Change Directory Location to the project directory -- cd <WORKSTATION_PATH>/myRetail-RESTFul-service
 6. Run the Spring boot app with the jar create from Maven install in Step 3 --  java -jar -Dspring.profiles.active=local target/myRetail-RESTFul-service-1.0.0-SNAPSHOT.jar
 
+##Instructions to test locally
+
+1. Test the get product API from the browser -- http://localhost:8080/products/13860428
+2. Test the update product API with SOAP UI or any REST client  --- http://localhost:8080/products/13860428 -- JSON Input : {   "id": 13860428,   "name": "The Big Lebowski (Blu-ray)",   "current_price":    {      "value": 17.44,      "currency_code": "USD"   }}
+3. Additionally import the sample SoapUI project located in test resources directory for Integration testing(Can be Automated) -- <WORKSTATION_PATH>/myRetail-RESTFul-service/src/test/resources.
+ 
+
+
 ##Instructions to run in production
 
 1. Setup Amazon DunamoDB credentials as described in the developer huide https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CodeSamples.Java.html#CodeSamples.Java.Credentials 
@@ -53,7 +61,7 @@ MyRetail RESTful service provides the API to:
 ###Request:
 
 curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id":13860428,"name":"The Big Lebowski (Blu-ray) (Widescreen)","current_price":{"value": 14.99,"currency_code":"USD"}} \ 
-  ' 'http://localhost:8080/products/'
+  ' 'http://localhost:8080/products/13860428'
   
 ###Response:
 

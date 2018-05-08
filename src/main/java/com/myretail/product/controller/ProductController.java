@@ -63,7 +63,7 @@ public class ProductController {
 	 * @return nothing, Spring should take care of returning the success HTTPS code.
 	 * 
 	 */
-	@RequestMapping(value = "/products/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/products/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void getProduct(@RequestBody ProductDetails productDetails) {
 
 		productPricingDAO.updateProduct(productDetails);
