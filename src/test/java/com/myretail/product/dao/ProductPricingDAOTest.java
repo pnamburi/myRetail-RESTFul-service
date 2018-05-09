@@ -100,8 +100,8 @@ public class ProductPricingDAOTest {
 	@Test
 	public void updateProductTestCase() {
 		// Save a product to DynamoDB before retrieve
-		ProductPricing dave = new ProductPricing(EXPECTED_PRODUCT_ID, EXPECTED_PRICE, EXPECTED_CURRENCY_CODE);
-		dynamoDBMapper.save(dave);
+		ProductPricing sampleProductPricing = new ProductPricing(EXPECTED_PRODUCT_ID, EXPECTED_PRICE, EXPECTED_CURRENCY_CODE);
+		dynamoDBMapper.save(sampleProductPricing);
 
 		// Retrieve the saved product from DynamoDB
 		ProductPricing productPricing = productPricingDAO.retrieveProduct(EXPECTED_PRODUCT_ID);
@@ -111,8 +111,8 @@ public class ProductPricingDAOTest {
 				productPricing.getCurrencyCode().equals(EXPECTED_CURRENCY_CODE));
 
 		// Set new price for the product
-		dave.setPrice(60.66);
-		dynamoDBMapper.save(dave);
+		sampleProductPricing.setPrice(60.66);
+		dynamoDBMapper.save(sampleProductPricing);
 
 		// Retrieve updated value
 		productPricing = productPricingDAO.retrieveProduct(EXPECTED_PRODUCT_ID);
@@ -120,7 +120,7 @@ public class ProductPricingDAOTest {
 		assertTrue("Contains item with updated cost", productPricing.getPrice() == 60.66);
 
 		// Delete it after the test
-		dynamoDBMapper.delete(dave);
+		dynamoDBMapper.delete(sampleProductPricing);
 
 	}
 
