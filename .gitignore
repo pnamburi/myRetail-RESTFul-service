@@ -4,3 +4,4 @@
 /bin/
 /native-libs/
 /target/
+/shared-local-instance.db

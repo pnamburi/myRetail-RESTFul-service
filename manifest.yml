@@ -1,0 +1,10 @@
+#manifest file to run the application on pivotal cloud
+---
+applications:
+- name: myRetail-service
+  memory: 1024M
+  instances: 1
+path: target/myRetail-RESTFul-service-1.0.0-SNAPSHOT.jar
+
+env:
+  SPRING_PROFILES_ACTIVE : prod
