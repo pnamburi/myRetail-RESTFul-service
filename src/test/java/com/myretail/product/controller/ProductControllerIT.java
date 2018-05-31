@@ -88,7 +88,7 @@ public class ProductControllerIT {
 	}
 
 	@Test
-	public void getHello() throws Exception {
+	public void getProduct() throws Exception {
 		dynamoDBMapper.save(sampleProductPricing);
 
 		String productJson = "{\"id\":13860428,\"name\":\"The Big Lebowski (Blu-ray)\",\"current_price\":{\"value\":13.49,\"currency_code\":\"USD\"}}";
