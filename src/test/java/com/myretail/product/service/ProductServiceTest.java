@@ -6,12 +6,14 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
+import com.myretail.product.Application;
 import com.myretail.product.domain.Item;
 import com.myretail.product.domain.Product;
 import com.myretail.product.domain.ProductDescription;
@@ -26,12 +28,13 @@ import com.myretail.product.domain.ProductRestResponse;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Application.class)
 public class ProductServiceTest {
 
-	@Mock
+	@MockBean
 	RestTemplate restTemplate;
 
-	@MockBean
+	@Autowired
 	ProductService productService;
 
 	@Test
@@ -46,10 +49,9 @@ public class ProductServiceTest {
 		pd.setTitle("The Big Lebowski (Blu-ray) (Widescreen)");
 		item.setProductDescription(pd);
 
-		// Use Mock RestTemplate
-		Mockito.when(productService.getTrustAllCertRestTemplate()).thenReturn(restTemplate);
+		
 		// Call the real method for the actual test method
-		Mockito.when(productService.getProduct(13860428L)).thenCallRealMethod();
+		//Mockito.when(productService.getProduct(13860428L)).thenCallRealMethod();
 		// Mock the REST call
 		Mockito.when(restTemplate.getForObject(
 				"https://redsky.target.com/v2/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics",
@@ -62,7 +64,7 @@ public class ProductServiceTest {
 		assertEquals("The Big Lebowski (Blu-ray) (Widescreen)", productDetails.getName());
 
 		productDetails = productService.getProduct(1234L);
-		assertNull(productDetails);
+		assertNull(productDetails.getName());
 	}
 
 }
